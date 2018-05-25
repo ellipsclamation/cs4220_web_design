@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Chuck Facts</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div id="chuck" v-cloak>
+
+        <h1>{{appName}}</h1>
+
+        <span>Get a random fact from the</span>
+
+        <select v-model="selected">
+            <option v-for="category in categories" v-bind:value="category">
+                {{category}}
+            </option>
+        </select>
+
+        <span>category.</span>
+        <button v-on:click="getFact">Get Fact</button>
+
+        <p>- or -</p>
+
+        <input v-model="search" type="text" placeholder="Search for a fact">
+        <button v-on:click="getSearch">Search</button>
+
+
+        <div v-show="isViewingFact">
+            <p v-show="isFetchingAFact">Fetching...</p>
+            <h3 v-show="!isFetchingAFact">{{currentFact}}</h3>
+
+            <p v-if="previousFacts.length">Previous Facts</p>
+            <ol>
+                <li v-for="fact in previousFacts">{{fact}}</li>
+            </ol>
+        </div>
+
+        <div v-show="!isViewingFact">
+            <h3 v-if="searchResults.length">Search Results</h3>
+            <ol>
+                <li v-for="result in searchResults" v-html="$options.filters.highlight(result.value)">{{result.value}}</li>
+            </ol>
+
+            <h3 v-if="searchHistory.length">Search History:</h3>
+            <ol>
+                <li v-for="history in searchHistory">{{history}}</li>
+            </ol>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+    <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+</body>
+</html>
